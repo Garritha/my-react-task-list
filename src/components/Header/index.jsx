@@ -22,8 +22,8 @@ export function Header({ handleAddTask }) {
       <h1 className={styles.title}>List Task</h1>
 
       <form onSubmit={handleSubmit} className={styles.newTaskForm}>
-        <input placeholder="Agrega nueva Tarea" type="text" onChange={onChangeTitle} value={title} />
-        <button>Add New Task <AiOutlinePlusCircle size={20} /></button>
+        <input placeholder="Add new Task" type="text" onChange={onChangeTitle} value={title} />
+        <button>Created <AiOutlinePlusCircle size={20} /></button>
       </form>
     </header>
   )
