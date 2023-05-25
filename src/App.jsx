@@ -7,6 +7,8 @@ const LOCAL_STORAGE_KEY = 'todo:tasks';
 
 function App() {
   const [tasks, setTasks] = useState([]);
+  const [taskTitle, setTaskTitle] = useState(""); // Nueva variable de estado para el título de la tarea
+  
 
   function loadSavedTasks() {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -25,13 +27,32 @@ function App() {
   }, [])
 
   function addTask(taskTitle) {
-    setTasksAndSave([...tasks, {
-      id: crypto.randomUUID(),
-      title: taskTitle,
-      isCompleted: false
-    }]);
+   if (taskTitle.trim() !== "") { // Verificar si el título de la tarea no está vacío
+      const newTask = {
+        id: crypto.randomUUID(),
+        title: taskTitle,
+        isCompleted: false
+      };
+       setTasksAndSave([...tasks, newTask]);
+      setTaskTitle(""); // Restablecer el título de la tarea a una cadena vacía
+    }
   }
 
+  function editTaskById(taskId, newTitle) {
+    const updatedTasks = tasks.map(task =>{
+      if(task.id === taskId){
+        return {... task, 
+          title: newTitle
+       
+        };
+      }
+      return task
+    });
+    setTasksAndSave(updatedTasks);
+  }
+    
+  
+ 
   function deleteTaskById(taskId) {
     const newTasks = tasks.filter(task => task.id !== taskId);
     setTasksAndSave(newTasks);
@@ -57,7 +78,9 @@ function App() {
         tasks={tasks}
         onDelete={deleteTaskById}
         onComplete={toggleTaskCompletedById}
+         onEdit={editTaskById} 
       />
+      
     </>
   )
 }

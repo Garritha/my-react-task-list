@@ -1,10 +1,13 @@
 import { Task } from '../Task';
 import styles from './tasks.module.css';
 
-export function Tasks({ tasks, onDelete, onComplete }) {
+export function Tasks({ tasks, onDelete, onComplete, onEdit }) {
   const tasksQuantity = tasks.length;
   const completedTasks = tasks.filter(task => task.isCompleted).length;
 
+    function handleEdit(taskId, newTitle) {
+    onEdit(taskId, newTitle);
+  }
   return (
     <section className={styles.tasks}>
       <header className={styles.header}>
@@ -21,7 +24,7 @@ export function Tasks({ tasks, onDelete, onComplete }) {
 
       <div className={styles.list}>
         {tasks.map((task) => (
-          <Task key={task.id} task={task} onDelete={onDelete} onComplete={onComplete} />
+          <Task key={task.id} task={task} onDelete={onDelete} onComplete={onComplete} onEdit={handleEdit} />
         ))}
       </div>
     </section>

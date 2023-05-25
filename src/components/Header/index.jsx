@@ -5,13 +5,17 @@ import { useState } from 'react';
 
 export function Header({ handleAddTask }) {
   const [title, setTitle] = useState('');
+  const [taskTitle, setTaskTitle] = useState(""); // Nueva variable de estado para el título de la tarea
+
 
   function handleSubmit(event) {
     event.preventDefault();
 
     handleAddTask(title);
-    setTitle('');
+    setTitle("");
   }
+  // Restablecer el título de la tarea a una cadena vacía
+    
 
   function onChangeTitle(event) {
     setTitle(event.target.value);

@@ -45,5 +45,10 @@ p.textCompleted {
 .deleteButton {
   background: none;
   border: none;
-  color: #808080;
+  color: #f03535;
+}
+
+.editBoton{
+ 
+    background:#4EA8DE;
 }
