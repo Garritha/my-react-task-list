@@ -18,8 +18,9 @@
 }
 
 p.textCompleted {
-  color: #808080;
+  color: #1d39dd;
   text-decoration: line-through;
+ 
 }
 
 .checkContainer {

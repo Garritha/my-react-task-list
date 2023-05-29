@@ -1,6 +1,7 @@
 
 import styles from './header.module.css';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
+import {  FcTodoList   } from 'react-icons/fc';
 import { useState } from 'react';
 
 export function Header({ handleAddTask }) {
@@ -23,7 +24,7 @@ export function Header({ handleAddTask }) {
 
   return (
     <header className={styles.header}>
-      <h1 className={styles.title}>List Task</h1>
+      <h1 className={styles.title}> <FcTodoList  size={45} /> List Task </h1>
 
       <form onSubmit={handleSubmit} className={styles.newTaskForm}>
         <input placeholder="Add new Task" type="text" onChange={onChangeTitle} value={title} />
