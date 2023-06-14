@@ -3,7 +3,8 @@ import { BsFillCheckCircleFill } from 'react-icons/bs';
 import { TbTrash  } from 'react-icons/tb';
 import { FiEdit } from 'react-icons/fi';
 
-export function Task({ task, onDelete, onComplete, onEdit }) {
+export function Task({ task,   onDelete, onComplete, onEdit }) {
+ 
   function handleEditClick() {
     const newTitle = prompt("Ingrese el nuevo título de la tarea:");
     if (newTitle !== null) {
@@ -16,10 +17,16 @@ export function Task({ task, onDelete, onComplete, onEdit }) {
       <button className={styles.checkContainer} onClick={() => onComplete(task.id)}>
         {task.isCompleted ? <BsFillCheckCircleFill /> : <div />}
       </button>
-
-      <p className={task.isCompleted ? styles.textCompleted : ""}>
-        {task.title}
-      </p>
+   
+        <p className={task.isCompleted ? styles.textCompleted : ""}>
+            {task.title}
+        </p>
+        <textarea className={task.isCompleted ? styles.textCompleted : ""}>
+          {task.des}
+        </textarea>
+   
+    
+      
    
       <button className={styles.editBoton} onClick={handleEditClick}> <FiEdit size={20}/> </button>
       

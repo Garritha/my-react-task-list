@@ -8,7 +8,7 @@ const LOCAL_STORAGE_KEY = 'todo:tasks';
 function App() {
   const [tasks, setTasks] = useState([]);
   const [taskTitle, setTaskTitle] = useState(""); // Nueva variable de estado para el título de la tarea
-  
+  const [taskDes, setTaskDes] = useState ("");
 
   function loadSavedTasks() {
     const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -26,17 +26,20 @@ function App() {
     loadSavedTasks();
   }, [])
 
-  function addTask(taskTitle) {
+  function addTask(taskTitle, taskDes) {
    if (taskTitle.trim() !== "") { // Verificar si el título de la tarea no está vacío
       const newTask = {
         id: crypto.randomUUID(),
         title: taskTitle,
+        des : taskDes,
         isCompleted: false
       };
+      console.log(newTask,taskDes);
        setTasksAndSave([...tasks, newTask]);
       setTaskTitle(""); // Restablecer el título de la tarea a una cadena vacía
     }
   }
+   
 
   function editTaskById(taskId, newTitle) {
     const updatedTasks = tasks.map(task =>{

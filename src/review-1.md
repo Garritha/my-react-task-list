@@ -4,3 +4,9 @@
 # funciones de list task 
 
     Agregar y eliminar tareas y subrayar tareas completadas, ademas cuenta con contadores de tareas para saber cuantas tareas hemos agreagos y  cuantas tareas hemos completado
+
+# funciones a futuro 
+
+    poder   hacer list de otras listas y almacenarlas en diferentes card para tener las diferentes listas  con sus nombres por ejemplo: 
+    1 lista de mercado 
+    2 lista de pagos 

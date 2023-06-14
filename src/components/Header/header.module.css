@@ -29,7 +29,7 @@
   padding: 0 1rem;
 }
 
-.newTaskForm input {
+.newTaskForm input, textarea {
   height: 100%;
   flex: 1;
   color: #fff;
@@ -40,10 +40,15 @@
   font-size: 25px;
 }
 
-.newTaskForm input::placeholder {
+.newTaskForm textarea {
+  font-size: 15px;
+}
+
+.newTaskForm  textarea, input::placeholder {
   color: #808080;
   
 }
+
 
 .newTaskForm button {
   height: 100%;

@@ -10,17 +10,27 @@
   gap: 12px;
 }
 
-.task p {
+.task p{
   font-size: 14px;
   line-height: 19px;
   color: #F2F2F2;
   margin-right: auto;
+}
+.task textarea{
+  font-size: 14px;
+  line-height: 19px;
+  color: F2F2F2;
+  margin-right: auto; 
 }
 
 p.textCompleted {
   color: #1d39dd;
   text-decoration: line-through;
  
+}
+textarea.textCompleted {
+    color: #1d39dd;
+    text-decoration: line-through;
 }
 
 .checkContainer {
