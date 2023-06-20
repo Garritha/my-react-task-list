@@ -1,35 +1,45 @@
-
+import { useForm } from 'react-hook-form';
 import styles from './header.module.css';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
-import {  FcTodoList   } from 'react-icons/fc';
+import { FcTodoList } from 'react-icons/fc';
 import { useState } from 'react';
 
 export function Header({ handleAddTask }) {
-  const [title, setTitle] = useState('');
-  const [taskTitle, setTaskTitle] = useState(""); // Nueva variable de estado para el título de la tarea
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [des, setDes] = useState('');
 
-
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    handleAddTask(title);
-    setTitle("");
+  function onSubmit(data) {
+    handleAddTask(data.title, des);
+    setTitle('');
+    setDes('');
   }
-  // Restablecer el título de la tarea a una cadena vacía
-    
 
-  function onChangeTitle(event) {
-    setTitle(event.target.value);
+  function onChangeDes(event) {
+    setDes(event.target.value);
   }
 
   return (
     <header className={styles.header}>
-      <h1 className={styles.title}> <FcTodoList  size={45} /> List Task </h1>
+      <h1 className={styles.title}>
+        <FcTodoList size={45} /> List Task
+      </h1>
 
-      <form onSubmit={handleSubmit} className={styles.newTaskForm}>
-        <input placeholder="Add new Task" type="text" onChange={onChangeTitle} value={title} />
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.newTaskForm}>
+        <input
+          placeholder="Add new Task"
+          type="text"
+          {...register('title', { required: true, minLength: 3 })}
+        />
+        {errors.title && <span className={styles.error}>El nombre debe tener al menos 3 caracteres</span>}
+        <textarea
+          placeholder="Add description"
+          type="text"
+          onChange={onChangeDes}
+          value={des}
+        />
+
         <button>Created <AiOutlinePlusCircle size={20} /></button>
       </form>
     </header>
-  )
+  );
 }
