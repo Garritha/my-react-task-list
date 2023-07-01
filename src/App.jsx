@@ -1,91 +1,25 @@
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "../src/pages/home";
+import About from "../src/pages/About";
+import NotFound from "../src/pages/NotFound";
+import Menu from "../src/components/menu/Menu"
+import ListTasks from "../src/pages/ListTasks";
 
-import { useEffect, useState } from "react";
-import { Header } from "./components/Header";
-import { Tasks } from "./components/Tasks";
-
-const LOCAL_STORAGE_KEY = 'todo:tasks';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
-  const [taskTitle, setTaskTitle] = useState(""); // Nueva variable de estado para el título de la tarea
-  const [taskDes, setTaskDes] = useState ("");
-
-  function loadSavedTasks() {
-    const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-    if(saved) {
-      setTasks(JSON.parse(saved));
-    }
-  }
-
-  function setTasksAndSave(newTasks) {
-    setTasks(newTasks);
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newTasks));
-  }
-
-  useEffect(() => {
-    loadSavedTasks();
-  }, [])
-
-  function addTask(taskTitle, taskDes) {
-   if (taskTitle.trim() !== "") { // Verificar si el título de la tarea no está vacío
-      const newTask = {
-        id: crypto.randomUUID(),
-        title: taskTitle,
-        des : taskDes,
-        isCompleted: false
-      };
-      console.log(newTask,taskDes);
-       setTasksAndSave([...tasks, newTask]);
-      setTaskTitle(""); // Restablecer el título de la tarea a una cadena vacía
-    }
-  }
-   
-
-  function editTaskById(taskId, newTitle) {
-    const updatedTasks = tasks.map(task =>{
-      if(task.id === taskId){
-        return {... task, 
-          title: newTitle
-       
-        };
-      }
-      return task
-    });
-    setTasksAndSave(updatedTasks);
-  }
-    
-  
- 
-  function deleteTaskById(taskId) {
-    const newTasks = tasks.filter(task => task.id !== taskId);
-    setTasksAndSave(newTasks);
-  }
-
-  function toggleTaskCompletedById(taskId) {
-    const newTasks = tasks.map(task => {
-      if(task.id === taskId) {
-        return {
-          ...task,
-          isCompleted: !task.isCompleted
-        }
-      }
-      return task;
-    });
-    setTasksAndSave(newTasks);
-  }
-
   return (
-    <>
-      <Header handleAddTask={addTask} />
-      <Tasks
-        tasks={tasks}
-        onDelete={deleteTaskById}
-        onComplete={toggleTaskCompletedById}
-         onEdit={editTaskById} 
-      />
+    <Router>
       
-    </>
-  )
+      <Menu />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/tasks" element={<ListTasks />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
