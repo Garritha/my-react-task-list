@@ -78,7 +78,7 @@ const Home = () => {
         <div className={styles.container}>
           <h1 className={styles.heading}>List Task</h1>
           <p className={styles.paragraph}>
-            Welcome to the list task app where you can store all the lists you want. Market list, Expenses list
+            Welcome to the presentation of our Task Lists! Our application offers you an easy and efficient way to organize your daily tasks. With our lists, you can create, edit, and manage your tasks quickly and easily. Prioritize your activities, set reminders, and mark completed tasks. Our Task Lists will help you stay focused, increase productivity, and achieve your goals more efficiently. Discover how to simplify your life and reach your goals with our Task Lists today
           </p>
           <button className={styles.button} onClick={() => setShowTasks(true)}>
             <i className="fas fa-plus"></i> Add New Task
