@@ -3,6 +3,8 @@ import styles from './header.module.css';
 import { AiOutlinePlusCircle } from 'react-icons/ai';
 import { FcTodoList } from 'react-icons/fc';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
+
 
 export function Header({ handleAddTask }) {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -13,6 +15,15 @@ export function Header({ handleAddTask }) {
     setTitle('');
     setDes('');
   }
+  function showAlert() {
+  Swal.fire({
+    title: 'Error',
+    text: 'El nombre debe tener al menos 3 caracteres',
+    icon: 'error',
+  }).then(() => {
+    window.scrollTo(0, window.scrollY - 50);
+  });
+}
 
   function onChangeDes(event) {
     setDes(event.target.value);
@@ -30,7 +41,10 @@ export function Header({ handleAddTask }) {
           type="text"
           {...register('title', { required: true, minLength: 3 })}
         />
-        {errors.title && <span className={styles.error}>El nombre debe tener al menos 3 caracteres</span>}
+       {errors.title && (
+          showAlert()
+        )}
+
         <textarea
           placeholder="Add description"
           type="text"

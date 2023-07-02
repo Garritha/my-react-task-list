@@ -29,7 +29,8 @@
   padding: 0 1rem;
 }
 
-.newTaskForm input, textarea {
+
+.newTaskForm textarea, input {
   height: 100%;
   flex: 1;
   color: #fff;
