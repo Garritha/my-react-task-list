@@ -1,6 +1,10 @@
 import { extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
+  config: {
+    initialColorMode: "light",
+    useSystemColorMode: false,
+  },
   styles: {
     global: {
       "*": {
@@ -9,8 +13,6 @@ const theme = extendTheme({
         boxSizing: "border-box",
       },
       body: {
-        background: "#191919",
-        color: "#F2F2F2",
         minHeight: "100vh",
       },
       button: {

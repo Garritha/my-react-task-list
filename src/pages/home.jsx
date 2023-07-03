@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Header } from "../components/Header/index";
 import { Tasks } from "../components/Tasks";
-import styles from "../pages/Styles/Home.module.css";
+import { Box, Button,  Heading, Icon,  useColorMode, Text } from "@chakra-ui/react";
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 
 const LOCAL_STORAGE_KEY = "todo:tasks";
 
@@ -10,6 +11,7 @@ const Home = () => {
   const [tasks, setTasks] = useState([]);
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDes, setTaskDes] = useState("");
+  const { colorMode, toggleColorMode } = useColorMode()
 
   function setTasksAndSave(newTasks) {
     setTasks(newTasks);
@@ -73,30 +75,38 @@ const Home = () => {
   }
 
   return (
-       <div  >
-      {!showTasks ? (
-        <div className={styles.container}>
-          <h1 className={styles.heading}>List Task</h1>
-          <p className={styles.paragraph}>
-            Welcome to the presentation of our Task Lists! Our application offers you an easy and efficient way to organize your daily tasks. With our lists, you can create, edit, and manage your tasks quickly and easily. Prioritize your activities, set reminders, and mark completed tasks. Our Task Lists will help you stay focused, increase productivity, and achieve your goals more efficiently. Discover how to simplify your life and reach your goals with our Task Lists today
-          </p>
-          <button className={styles.button} onClick={() => setShowTasks(true)}>
-            <i className="fas fa-plus"></i> Add New Task
-          </button>
-        </div>
-      ) : (
-        <div>
-          <Header handleAddTask={addTask} />
-          <Tasks
-            tasks={tasks}
-            onDelete={deleteTaskById}
-            onComplete={toggleTaskCompletedById}
-            onEdit={editTaskById}
-          />
-        </div>
-      )}
-    </div>
-  );
+       <div>
+    {!showTasks ? (
+      <Box className="container" align="center">
+        <Heading as="h1"
+       size="2xl"
+       color={colorMode === "light" ? "white" : "#1E6F9F"}
+        marginBottom="4">List Task</Heading>
+        <Text fontSize="xl"
+        color={colorMode === "light" ? "white" : "#1E6F9F"}
+        marginBottom="8"
+        maxW="400px"
+        textAlign="justify">
+          Welcome to the presentation of our Task Lists! Our application offers you an easy and efficient way to organize your daily tasks. With our lists, you can create, edit, and manage your tasks quickly and easily. Prioritize your activities, set reminders, and mark completed tasks. Our Task Lists will help you stay focused, increase productivity, and achieve your goals more efficiently. Discover how to simplify your life and reach your goals with our Task Lists today.
+        </Text>
+        <Button onClick={() => setShowTasks(true)} backgroundColor="#1E6F9F" color="#fff" borderRadius="4px" padding="4" fontSize="xl" display="flex" alignItems="center" justifyContent="center" transition="background-color 0.3s ease" _hover={{ backgroundColor: "#ff4f4f" }}>
+          <Icon as={AiOutlinePlusCircle} marginRight="2" />
+          Add New Task
+        </Button>
+      </Box>
+    ) : (
+      <div>
+        <Header handleAddTask={addTask} />
+        <Tasks
+          tasks={tasks}
+          onDelete={deleteTaskById}
+          onComplete={toggleTaskCompletedById}
+          onEdit={editTaskById}
+        />
+      </div>
+    )}
+  </div>
+);
 };
 
 export default Home;

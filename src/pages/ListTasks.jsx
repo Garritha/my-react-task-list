@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+
+import { Box, Heading, useColorMode } from "@chakra-ui/react";
+import { FcTodoList } from "react-icons/fc";
 import { Tasks } from "../components/Tasks";
-import styles from "../components/Header/header.module.css";
-import { FcTodoList } from 'react-icons/fc';
+import { useEffect, useState } from "react";
 
 const LOCAL_STORAGE_KEY = "todo:tasks";
 
 
 function ListTasks() {
 const [tasks, setTasks] = useState([]);
+const { colorMode, toggleColorMode } = useColorMode();
 
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDes, setTaskDes] = useState("");
@@ -74,18 +76,20 @@ const [tasks, setTasks] = useState([]);
   }
 
   return (
-    <div  >
-     <h1 className={`${styles.title} ${styles.center}`}>
-  <FcTodoList size={45} /> List Task
-</h1>
+   <Box>
+      <Heading as="h1" className="title center" fontSize="xl" display="flex" alignItems="center">
+        <FcTodoList size={45} /> List Task
+      </Heading>
 
-     <Tasks
-            tasks={tasks}
-            onDelete={deleteTaskById}
-            onComplete={toggleTaskCompletedById}
-            onEdit={editTaskById}
-          />
-    </div>
+      <Tasks
+        tasks={tasks}
+        onDelete={deleteTaskById}
+        onComplete={toggleTaskCompletedById}
+        onEdit={editTaskById}
+      />
+
+     
+    </Box>
   );
 }
 

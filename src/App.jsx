@@ -5,15 +5,26 @@ import About from "../src/pages/About";
 import NotFound from "../src/pages/NotFound";
 import Menu from "../src/components/menu/Menu"
 import ListTasks from "../src/pages/ListTasks";
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, useColorMode, IconButton, ColorModeProvider } from '@chakra-ui/react'
 import theme from "./theme";
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
 
 function App() {
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
    
    <ChakraProvider theme={theme}>
-   
+    <ColorModeProvider>
+        <IconButton
+          aria-label="Toggle dark mode"
+          icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+          size="md"
+          onClick={toggleColorMode}
+          position="fixed"
+          top="1rem"
+          right="1rem"
+        />
     <Router>
       <Menu />
       <Routes>
@@ -23,6 +34,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
+    </ColorModeProvider>
    </ChakraProvider>
    
   );
