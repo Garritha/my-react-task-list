@@ -24,11 +24,7 @@ export function Task({ task,   onDelete, onComplete, onEdit }) {
         <textarea className={task.isCompleted ? styles.textCompleted : ""}>
           {task.des}
         </textarea>
-   
-    
-      
-   
-      <button className={styles.editBoton} onClick={handleEditClick}> <FiEdit size={20}/> </button>
+   <button className={styles.editBoton} onClick={handleEditClick}> <FiEdit size={20}/> </button>
       
       <button className={styles.deleteButton} onClick={() => onDelete(task.id)}>
         <TbTrash size={20} />

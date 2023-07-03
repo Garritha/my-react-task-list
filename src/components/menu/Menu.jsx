@@ -1,21 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import styles from "../menu/Menu.module.css"; 
+import { Link as RouterLink } from "react-router-dom";
+import { Box, Link, Text, Flex, Stack } from "@chakra-ui/react";
+
 function Menu() {
   return (
-    <nav className={styles.nav}> 
-      <ul>
-        <li>
-          <Link to="/" className={styles.a}>Home</Link> 
-        </li>
-        <li>
-          <Link to="/about" className={styles.a}>About</Link> 
-        </li>
-        <li>
-          <Link to="/tasks" className={styles.a}>List Tasks</Link>
-        </li>
-      </ul>
-    </nav>
+  <Box as="nav" bg="#262626" padding="10px">
+      <Flex justify="center">
+        <Stack direction="row" spacing="4">
+          <Link as={RouterLink} to="/" color="#045FB4" textDecoration="none" padding="5px 10px" borderRadius="5px" _hover={{ backgroundColor: "#BDBDBD", color: "#FFF" }}>
+            Home
+          </Link>
+          <Link as={RouterLink} to="/about" color="#045FB4" textDecoration="none" padding="5px 10px" borderRadius="5px" _hover={{ backgroundColor: "#BDBDBD", color: "#FFF" }}>
+            About
+          </Link>
+          <Link as={RouterLink} to="/tasks" color="#045FB4" textDecoration="none" padding="5px 10px" borderRadius="5px" _hover={{ backgroundColor: "#BDBDBD", color: "#FFF" }}>
+            List Tasks
+          </Link>
+        </Stack>
+      </Flex>
+    </Box>
   );
 }
 
