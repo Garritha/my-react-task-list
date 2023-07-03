@@ -18,6 +18,7 @@ export function Task({ task,   onDelete, onComplete, onEdit }) {
   }
   
   return (
+<<<<<<< HEAD
      <Box
       width="100%"
       background={colorMode === "light" ? "white" : "#262626"}
@@ -91,5 +92,24 @@ export function Task({ task,   onDelete, onComplete, onEdit }) {
         <Icon as= {TbTrash} size={20} />
       </Button>
     </Box>
+=======
+    <div className={styles.task}>
+      <button className={styles.checkContainer} onClick={() => onComplete(task.id)}>
+        {task.isCompleted ? <BsFillCheckCircleFill /> : <div />}
+      </button>
+   
+        <p className={task.isCompleted ? styles.textCompleted : ""}>
+            {task.title}
+        </p>
+        <textarea className={task.isCompleted ? styles.textCompleted : ""}>
+          {task.des}
+        </textarea>
+   <button className={styles.editBoton} onClick={handleEditClick}> <FiEdit size={20}/> </button>
+      
+      <button className={styles.deleteButton} onClick={() => onDelete(task.id)}>
+        <TbTrash size={20} />
+      </button>
+    </div>
+>>>>>>> a018da4372ded818c2db2186452a87f35a6fd56e
   )
 }
