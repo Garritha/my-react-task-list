@@ -19,7 +19,7 @@
 .task textarea{
   font-size: 14px;
   line-height: 19px;
-  color: F2F2F2;
+  color: black;
   margin-right: auto; 
 }
 
@@ -53,13 +53,4 @@ textarea.textCompleted {
   color: #5E60CE;
 }
 
-.deleteButton {
-  background: none;
-  border: none;
-  color: #f03535;
-}
 
-.editBoton{
- 
-    background:#4EA8DE;
-}

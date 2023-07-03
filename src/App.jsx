@@ -5,12 +5,16 @@ import About from "../src/pages/About";
 import NotFound from "../src/pages/NotFound";
 import Menu from "../src/components/menu/Menu"
 import ListTasks from "../src/pages/ListTasks";
+import { ChakraProvider } from '@chakra-ui/react'
+import theme from "./theme";
 
 
 function App() {
   return (
+   
+   <ChakraProvider theme={theme}>
+   
     <Router>
-      
       <Menu />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -19,6 +23,8 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
+   </ChakraProvider>
+   
   );
 }
 
