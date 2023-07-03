@@ -18,8 +18,7 @@ export function Task({ task,   onDelete, onComplete, onEdit }) {
   }
   
   return (
-<<<<<<< HEAD
-     <Box
+   <Box
       width="100%"
       background={colorMode === "light" ? "white" : "#262626"}
       border="1px solid #333333"
@@ -56,7 +55,7 @@ export function Task({ task,   onDelete, onComplete, onEdit }) {
         lineHeight="19px"
         color={task.isCompleted ? "#1d39dd" : "#F2F2F2"}
         marginRight="auto"
-        textDecoration={task.isCompleted ? "line-through" : "none"} // Nuevo estilo de subrayado
+        textDecoration={task.isCompleted ? "underline" : "none"} // Nuevo estilo de subrayado
       >
         {task.title}
       </Text>
@@ -66,7 +65,6 @@ export function Task({ task,   onDelete, onComplete, onEdit }) {
         fontSize="14px"
         lineHeight="19px"
         color={task.isCompleted ? "#1d39dd" : "black"}
-        textDecoration={task.isCompleted ? "line-through" : "none"} 
         marginRight="auto"
       >
         {task.des}
@@ -79,7 +77,7 @@ export function Task({ task,   onDelete, onComplete, onEdit }) {
         colorScheme="blue"
         variant="outline"
       >
-        <Icon as= {FiEdit} size={20} />
+        <Icon as={FiEdit}  size={20} />
       </Button>
 
       <Button
@@ -89,27 +87,8 @@ export function Task({ task,   onDelete, onComplete, onEdit }) {
         colorScheme="red"
         variant="outline"
       >
-        <Icon as= {TbTrash} size={20} />
+        <Icon as={TbTrash}  size={20} />
       </Button>
     </Box>
-=======
-    <div className={styles.task}>
-      <button className={styles.checkContainer} onClick={() => onComplete(task.id)}>
-        {task.isCompleted ? <BsFillCheckCircleFill /> : <div />}
-      </button>
-   
-        <p className={task.isCompleted ? styles.textCompleted : ""}>
-            {task.title}
-        </p>
-        <textarea className={task.isCompleted ? styles.textCompleted : ""}>
-          {task.des}
-        </textarea>
-   <button className={styles.editBoton} onClick={handleEditClick}> <FiEdit size={20}/> </button>
-      
-      <button className={styles.deleteButton} onClick={() => onDelete(task.id)}>
-        <TbTrash size={20} />
-      </button>
-    </div>
->>>>>>> a018da4372ded818c2db2186452a87f35a6fd56e
   )
 }

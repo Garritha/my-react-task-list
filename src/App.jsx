@@ -5,14 +5,9 @@ import About from "../src/pages/About";
 import NotFound from "../src/pages/NotFound";
 import Menu from "../src/components/menu/Menu"
 import ListTasks from "../src/pages/ListTasks";
-<<<<<<< HEAD
 import { ChakraProvider, useColorMode, IconButton, ColorModeProvider } from '@chakra-ui/react'
 import theme from "./theme";
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-=======
-import { ChakraProvider } from '@chakra-ui/react'
-import theme from "./theme";
->>>>>>> a018da4372ded818c2db2186452a87f35a6fd56e
 
 
 function App() {
@@ -20,7 +15,6 @@ function App() {
   return (
    
    <ChakraProvider theme={theme}>
-<<<<<<< HEAD
     <ColorModeProvider>
         <IconButton
           aria-label="Toggle dark mode"
@@ -31,9 +25,6 @@ function App() {
           top="1rem"
           right="1rem"
         />
-=======
-   
->>>>>>> a018da4372ded818c2db2186452a87f35a6fd56e
     <Router>
       <Menu />
       <Routes>
@@ -43,10 +34,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
-<<<<<<< HEAD
     </ColorModeProvider>
-=======
->>>>>>> a018da4372ded818c2db2186452a87f35a6fd56e
    </ChakraProvider>
    
   );
