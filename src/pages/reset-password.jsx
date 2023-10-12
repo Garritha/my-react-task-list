@@ -4,8 +4,17 @@ import { Box, Heading, FormControl, FormLabel, Input, Button } from '@chakra-ui/
 function ResetPassword() {
   const [email, setEmail] = useState('');
 
-  const handleResetPassword = () => {
-    // Aquí puedes agregar la lógica para enviar una solicitud de restablecimiento de contraseña al backend.
+  const handleResetPassword = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/auth/reset-password', {
+        email,
+      });
+      console.log(response.data); // Muestra la respuesta del servidor
+      // Puedes mostrar un mensaje al usuario indicando que se envió un correo electrónico para restablecer la contraseña
+    } catch (error) {
+      console.error(error); // Muestra errores si la solicitud falla
+      // Puedes mostrar un mensaje de error al usuario aquí
+    }
   };
 
   return (

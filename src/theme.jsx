@@ -1,6 +1,9 @@
 import { extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
+  config: {
+    initialColorMode: "light", // Establece el modo claro como predeterminado
+  },
   styles: {
     global: {
       "*": {
@@ -9,8 +12,6 @@ const theme = extendTheme({
         boxSizing: "border-box",
       },
       body: {
-        background: "#191919",
-        color: "#F2F2F2",
         minHeight: "100vh",
       },
       button: {

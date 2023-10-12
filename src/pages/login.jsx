@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Axios from 'axios';
 import {
   Box,
   Heading,
@@ -25,16 +26,25 @@ function Login() {
     // Agrega más usuarios si es necesario
   ];
 
-  const handleLogin = () => {
-    const user = users.find((u) => u.email === email && u.password === password);
-
-    if (user) {
-      setIsAuthenticated(true);
-      navigate('/home');
-    } else {
-      alert('Credenciales incorrectas. Por favor, intenta de nuevo.');
-    }
-  };
+    const handleLogin = () => {
+      Axios.post('/auth/login', { mail: email, password }) // Ruta de autenticación en el backend
+        .then((response) => {
+          // Maneja la respuesta del backend
+          const { data } = response;
+          if (data.token) {
+            setIsAuthenticated(true);
+            // Almacena el token en localStorage o en una cookie para su uso posterior
+            localStorage.setItem('token', data.token);
+            navigate('/home'); // Redirige al usuario a la página de inicio si las credenciales son correctas
+          } else {
+            alert('Credenciales incorrectas. Por favor, intenta de nuevo.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error al iniciar sesión:', error);
+          alert('Error al iniciar sesión. Por favor, inténtalo más tarde.');
+        });
+    };
 
   return (
     <ChakraProvider>
@@ -47,7 +57,7 @@ function Login() {
         bg="black"
         color="blue"
       >
-        <Box p={8} borderWidth={1} borderRadius={8} boxShadow="lg" bg="white">
+        <Box p={8} borderWidth={1} borderRadius={8} boxShadow="lg" bg="black">
           <Heading as="h2" size="lg" textAlign="center" mb={4}>
             Login
           </Heading>
@@ -57,7 +67,7 @@ function Login() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              color="black"
+              color="white"
             />
           </FormControl>
           <FormControl id="password" isRequired mt={4}>
@@ -66,7 +76,7 @@ function Login() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              color="black"
+              color="white"
             />
           </FormControl>
           <Button
@@ -79,7 +89,7 @@ function Login() {
             Log In to My Account
           </Button>
           <Text mt={2} textAlign="center">
-            <Link color="blue" href="/forgot-password">
+            <Link color="blue" href="/reset-password">
               Forgot Password?
             </Link>
           </Text>
