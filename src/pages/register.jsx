@@ -2,28 +2,27 @@ import React, { useState } from 'react';
 import { Box, Heading, FormControl, FormLabel, Input, Button } from '@chakra-ui/react';
 import Axios from 'axios';
 
-
-
-
 function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
- 
   const handleRegister = async () => {
     try {
-      const response = await Axios.post('http://localhost:8080/auth/register', {
+      const response = await Axios.post('http://localhost:8080/user/create-user', {
+        name,
         email,
         password,
       });
       console.log(response.data); // Muestra la respuesta del servidor
+
       // Puedes redirigir al usuario a una página de inicio de sesión o mostrar un mensaje de éxito aquí
     } catch (error) {
       console.error(error); // Muestra errores si la solicitud falla
+
       // Puedes mostrar un mensaje de error al usuario aquí
     }
   };
-  
 
   return (
     <Box
@@ -39,6 +38,14 @@ function Register() {
         <Heading as="h2" size="lg" textAlign="center" mb={4}>
           Register
         </Heading>
+        <FormControl id="name" isRequired>
+          <FormLabel>Name</FormLabel>
+          <Input
+            type="text" // Debería ser "text" en lugar de "name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </FormControl>
         <FormControl id="email" isRequired>
           <FormLabel>Email</FormLabel>
           <Input

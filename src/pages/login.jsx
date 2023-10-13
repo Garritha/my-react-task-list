@@ -13,38 +13,29 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login({ setIsAuthenticated }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const navigate = useNavigate();
 
-  const users = [
-    { email: 'user1@example.com', password: 'password123' },
-    { email: 'user2@example.com', password: 'password456' },
-    // Agrega más usuarios si es necesario
-  ];
-
-    const handleLogin = () => {
-      Axios.post('/auth/login', { mail: email, password }) // Ruta de autenticación en el backend
-        .then((response) => {
-          // Maneja la respuesta del backend
-          const { data } = response;
-          if (data.token) {
-            setIsAuthenticated(true);
-            // Almacena el token en localStorage o en una cookie para su uso posterior
-            localStorage.setItem('token', data.token);
-            navigate('/home'); // Redirige al usuario a la página de inicio si las credenciales son correctas
-          } else {
-            alert('Credenciales incorrectas. Por favor, intenta de nuevo.');
-          }
-        })
-        .catch((error) => {
-          console.error('Error al iniciar sesión:', error);
-          alert('Error al iniciar sesión. Por favor, inténtalo más tarde.');
-        });
-    };
+  const handleLogin = () => {
+    Axios.post('http://localhost:8080/auth/login', { email, password })
+      .then((response) => {
+        const { data } = response;
+        if (data.token) {
+          setIsAuthenticated(true); // Llama a la función para actualizar el estado en App
+          localStorage.setItem('token', data.token);
+          navigate('/home');
+        } else {
+          alert('Credenciales incorrectas. Por favor, intenta de nuevo.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error al iniciar sesión:', error);
+        alert('Error al iniciar sesión. Por favor, inténtalo más tarde.');
+      });
+  }
 
   return (
     <ChakraProvider>

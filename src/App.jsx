@@ -24,7 +24,7 @@ import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -40,23 +40,26 @@ function App() {
                 {colorMode === "dark" ? "" : ""}
               </Button>
             </Box>
-            {isLoggedIn && <Menu />} {/* Muestra el menú solo si isLoggedIn es true */}
+            {isAuthenticated && <Menu />} {/* Muestra el menú solo si isLoggedIn es true */}
             <Box flex="1">
               <Routes>
-                <Route path="/" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-                <Route path="/register" element={<Register />} />
+              <Route
+                path="/"
+                element={<Login setIsAuthenticated={setIsAuthenticated} />}
+              />
+              <Route path="/register" element={<Register />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route
                   path="/home"
-                  element={isLoggedIn ? <Home /> : <Navigate to="/" />}
+                  element={isAuthenticated ? <Home /> : <Navigate to="/" />}
                 />
                 <Route
                   path="/about"
-                  element={isLoggedIn ? <About /> : <Navigate to="/" />}
+                  element={isAuthenticated ? <About /> : <Navigate to="/" />}
                 />
                 <Route
                   path="/tasks"
-                  element={isLoggedIn ? <ListTasks /> : <Navigate to="/" />}
+                  element={isAuthenticated ? <ListTasks /> : <Navigate to="/" />}
                 />
                 <Route path="*" element={<NotFound />} />
               </Routes>
