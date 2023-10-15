@@ -9,7 +9,7 @@ import ListTasks from "../src/pages/ListTasks";
 import {
   ChakraProvider,
   Button,
-  CSSReset,
+
   ColorModeProvider,
   useColorMode,
   Box,
@@ -37,17 +37,18 @@ function App() {
                 onClick={toggleColorMode}
                 leftIcon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
               >
-                {colorMode === "dark" ? "" : ""}
+                {colorMode === "dark" ? "Switch to Light" : "Switch to Dark"}
               </Button>
             </Box>
-            {isAuthenticated && <Menu />} {/* Muestra el menú solo si isLoggedIn es true */}
+            {isAuthenticated && <Menu />}{" "}
+            {/* Muestra el menú solo si isLoggedIn es true */}
             <Box flex="1">
               <Routes>
-              <Route
-                path="/"
-                element={<Login setIsAuthenticated={setIsAuthenticated} />}
-              />
-              <Route path="/register" element={<Register />} />
+                <Route
+                  path="/"
+                  element={<Login setIsAuthenticated={setIsAuthenticated} />}
+                />
+                <Route path="/register" element={<Register />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route
                   path="/home"
@@ -59,7 +60,9 @@ function App() {
                 />
                 <Route
                   path="/tasks"
-                  element={isAuthenticated ? <ListTasks /> : <Navigate to="/" />}
+                  element={
+                    isAuthenticated ? <ListTasks /> : <Navigate to="/" />
+                  }
                 />
                 <Route path="*" element={<NotFound />} />
               </Routes>
