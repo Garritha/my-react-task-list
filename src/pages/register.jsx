@@ -8,6 +8,7 @@ import {
   Button,
   Alert,
   AlertIcon,
+  useColorMode,
 } from "@chakra-ui/react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +20,7 @@ function Register() {
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [error, setError] = useState(""); // Estado para manejar errores
   const navigate = useNavigate();
+  const { colorMode } = useColorMode(); // Obtener el modo de color actual
 
   const handleRegister = async () => {
     try {
@@ -33,9 +35,7 @@ function Register() {
 
       if (response.status === 200) {
         setRegistrationSuccess(true);
-        
       } else {
-        // setError("Error: Failed to create a user.");
         navigate("/home");
       }
     } catch (error) {
@@ -51,16 +51,16 @@ function Register() {
       alignItems="center"
       justifyContent="center"
       height="100vh"
-      bg="black"
-      color="blue"
+      bg={colorMode === "dark" ? "black" : "white"} // Cambia el color de fondo según el modo
+      color={colorMode === "dark" ? "blue" : "blue.500"} // Cambia el color del texto según el modo
     >
       <Box
         p={8}
         borderWidth={1}
         borderRadius={8}
         boxShadow="lg"
-        bg="black"
-        color="blue"
+        bg={colorMode === "dark" ? "black" : "white"} // Cambia el color de fondo según el modo
+        color={colorMode === "dark" ? "blue" : "blue.500"} // Cambia el color del texto según el modo
       >
         <Heading as="h2" size="lg" textAlign="center" mb={4}>
           Register

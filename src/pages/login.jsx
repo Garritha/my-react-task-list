@@ -10,22 +10,29 @@ import {
   ChakraProvider,
   Text,
   Link,
+  useColorMode
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+
 
 function Login({ setIsAuthenticated }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
+  const { colorMode } = useColorMode();
   const navigate = useNavigate();
 
   const handleLogin = () => {
     Axios.post('http://localhost:8080/auth/login', { email, password })
       .then((response) => {
         const { data } = response;
-        if (data.token) {
-          setIsAuthenticated(true); // Llama a la función para actualizar el estado en App
+
+        if (data.token && data.userId) {
           localStorage.setItem('token', data.token);
+          localStorage.setItem('userId', data.userId);
+          console.log('Inicio de sesión exitoso.');
+          console.log('Token:', data.token);
+          console.log('ID de usuario:', data.userId); 
+          setIsAuthenticated(true);
           navigate('/home');
         } else {
           alert('Credenciales incorrectas. Por favor, intenta de nuevo.');
@@ -45,12 +52,12 @@ function Login({ setIsAuthenticated }) {
         alignItems="center"
         justifyContent="center"
         height="100vh"
-        bg="black"
-        color="blue"
+        bg={colorMode === 'dark' ? 'black' : 'white'}
+        color={colorMode === 'dark' ? 'blue' : 'blue.500'}
       >
-        <Box p={8} borderWidth={1} borderRadius={8} boxShadow="lg" bg="black">
+        <Box p={8} borderWidth={1} borderRadius={8} boxShadow="lg" bg={colorMode === 'dark' ? 'black' : 'white'}>
           <Heading as="h2" size="lg" textAlign="center" mb={4}>
-            Login
+            Login List Tasks
           </Heading>
           <FormControl id="email" isRequired>
             <FormLabel>Email</FormLabel>
@@ -58,7 +65,7 @@ function Login({ setIsAuthenticated }) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              color="white"
+              color={colorMode === 'dark' ? 'white' : 'black'}
             />
           </FormControl>
           <FormControl id="password" isRequired mt={4}>
@@ -67,7 +74,7 @@ function Login({ setIsAuthenticated }) {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              color="white"
+              color={colorMode === 'dark' ? 'white' : 'black'}
             />
           </FormControl>
           <Button

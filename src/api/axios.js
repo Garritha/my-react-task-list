@@ -2,20 +2,32 @@ import Axios from "axios";
 
 const API_BASE_URL = "http://localhost:8080/task"; 
 
-// Crear una nueva tarea
-async function createTask(title, description) {
+// Función para crear una nueva tarea
+async function createTask(title, description, userId, token) {
   try {
-    const response = await Axios.post(`${API_BASE_URL}/crear`, {
-      titulo: title,
-      descripcion: description,
-    });
+    const headers = {
+      Authorization: `Bearer ${token}`, // Adjunta el token en el encabezado
+      'Content-Type': 'application/json',
+    };
+
+    const response = await Axios.post(
+      `${API_BASE_URL}/crear`,
+      {
+        titulo: title,
+        descripcion: description,
+        userId: userId,
+      },
+      {
+        headers,
+      }
+    );
+
     return response.data;
   } catch (error) {
-    console.error("Error al crear la tarea:", error);
+    console.error('Error al crear la tarea:', error);
     throw error;
   }
 }
-
 // Actualizar una tarea existente
 async function updateTask(taskId, title, description, state) {
   try {
