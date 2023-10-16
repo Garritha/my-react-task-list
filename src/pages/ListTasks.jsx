@@ -4,9 +4,8 @@ import {
   createTask,
   updateTask,
   deleteTask,
-  getAllTasks,
+  getTasksByUser,
 } from "../api/axios.js";
-import Axios from "axios";
 import {
   Box,
   Button,
@@ -15,66 +14,34 @@ import {
   Text,
   Textarea,
   VStack,
-  useColorMode,
 } from "@chakra-ui/react";
-
-const colors = {
-  pendiente: "red.400",
-  en_progreso: "yellow.400",
-  completa: "green.400",
-};
 
 function ListTasks() {
   const [tasks, setTasks] = useState([]);
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDes, setTaskDes] = useState("");
-
-  async function loadTasks() {
-    try {
-      const token = localStorage.getItem('token');
-console.log(token);
-      if (!token) {
-        console.error('El token de autorización no está disponible.');
-        return;
-      }
-
-      const headers = {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      };
-
-      const response = await Axios.get('http://localhost:8080/task', {
-        headers,
-      });
-
-      const tasks = response.data;
-      setTasks(tasks);
-    } catch (error) {
-      console.error('Error al cargar las tareas:', error);
-    }
-  }
+  const [userId, setUserId] = useState(localStorage.getItem("userId"));
 
   useEffect(() => {
-    loadTasks();
-  }, []);
+    console.log("userId", userId);
+    loadTasksByUser();
+  }, [userId]);
+ 
+
+  const loadTasksByUser = async () => {
+    try {
+      const tasksData = await getTasksByUser(userId);
+      setTasks(tasksData);
+    } catch (error) {
+      console.error("Error al cargar tareas por usuario:", error);
+    }
+  }
+  console.log("tasks", tasks);
 
   async function handleCreateTask() {
     try {
       if (taskTitle && taskDes) {
-        const userId = localStorage.getItem("userId");
-        const token = localStorage.getItem("token");
-  
-        if (!token) {
-          console.error("El token de autorización no está disponible.");
-          return;
-        }
-  
-        const headers = {
-          Authorization: `Bearer ${token}`, // Asegúrate de que el token se envíe en el encabezado
-          "Content-Type": "application/json",
-        };
-  
-        const newTask = await createTask(taskTitle, taskDes, userId, token, headers);
+        const newTask = await createTask(taskTitle, taskDes, userId);
         setTasks([...tasks, newTask]);
         setTaskTitle("");
         setTaskDes("");
@@ -85,7 +52,6 @@ console.log(token);
       console.error("Error al crear la tarea:", error);
     }
   }
-  
 
   async function handleUpdateTask(taskId, newTitle, newDes, newState) {
     try {
@@ -119,7 +85,6 @@ console.log(token);
 
   async function handleCompleteTask(taskId) {
     try {
-      // Actualiza el estado de la tarea llamando a la función getTaskById
       const updatedTask = await getTaskById(taskId);
       if (updatedTask) {
         const updatedTasks = tasks.map((task) => {
@@ -134,6 +99,10 @@ console.log(token);
       console.error("Error al cambiar el estado de la tarea:", error);
     }
   }
+  
+  const pendingTasks = tasks.filter((task) => task.estado === "pendiente");
+  const inProgressTasks = tasks.filter((task) => task.estado === "en_proceso");
+  const completedTasks = tasks.filter((task) => task.estado === "completa");
 
   return (
     <VStack align="center" spacing={6}>

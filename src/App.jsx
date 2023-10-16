@@ -26,7 +26,7 @@ import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { colorMode, toggleColorMode } = useColorMode();
-
+  const [userId, setUserId] = useState(null);
   return (
     <ChakraProvider theme={colorMode === "dark" ? darkTheme : lightTheme}>
       <ColorModeProvider value={colorMode}>
@@ -46,7 +46,7 @@ function App() {
               <Routes>
                 <Route
                   path="/"
-                  element={<Login setIsAuthenticated={setIsAuthenticated} />}
+                  element={<Login setIsAuthenticated={setIsAuthenticated} setUserId={setUserId} />}
                 />
                 <Route path="/register" element={<Register />} />
                 <Route path="/reset-password" element={<ResetPassword />} />

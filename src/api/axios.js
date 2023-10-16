@@ -1,25 +1,24 @@
 import Axios from "axios";
 
-const API_BASE_URL = "http://localhost:8080/task"; 
+const API_BASE_URL = "http://localhost:8080/task";
 
-// Función para crear una nueva tarea
-async function createTask(title, description, userId, token) {
+async function createTask(title, description, token, userId) {
   try {
-    const headers = {
-      Authorization: `Bearer ${token}`, // Adjunta el token en el encabezado
-      'Content-Type': 'application/json',
+    const data = {
+      titulo: title,
+      descripcion: description,
+      token: token,
+      userId: userId, // Asegúrate de que "userId" se envía correctamente
     };
-
+      
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      UserId: userId,
+    };
     const response = await Axios.post(
       `${API_BASE_URL}/crear`,
-      {
-        titulo: title,
-        descripcion: description,
-        userId: userId,
-      },
-      {
-        headers,
-      }
+      data, // Pasa los datos como un objeto
+      { headers }
     );
 
     return response.data;
@@ -28,7 +27,10 @@ async function createTask(title, description, userId, token) {
     throw error;
   }
 }
-// Actualizar una tarea existente
+
+
+
+
 async function updateTask(taskId, title, description, state) {
   try {
     const response = await Axios.put(`${API_BASE_URL}/actualizar/${taskId}`, {
@@ -43,7 +45,6 @@ async function updateTask(taskId, title, description, state) {
   }
 }
 
-// Eliminar una tarea por su ID
 async function deleteTask(taskId) {
   try {
     await Axios.delete(`${API_BASE_URL}/eliminar/${taskId}`);
@@ -53,29 +54,10 @@ async function deleteTask(taskId) {
   }
 }
 
-// Obtener todas las tareas
-async function getAllTasks() {
-  try {
-    const response = await Axios.get(API_BASE_URL);
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener todas las tareas:", error);
-    throw error;
-  }
-}
 
-// Obtener una tarea por su ID
-async function getTaskById(taskId) {
-  try {
-    const response = await Axios.get(`${API_BASE_URL}/${taskId}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener la tarea por ID:", error);
-    throw error;
-  }
-}
 
-// Obtener tareas completadas
+
+
 async function getCompletedTasks() {
   try {
     const response = await Axios.get(`${API_BASE_URL}/completas`);
@@ -86,7 +68,6 @@ async function getCompletedTasks() {
   }
 }
 
-// Obtener tareas incompletas
 async function getIncompleteTasks() {
   try {
     const response = await Axios.get(`${API_BASE_URL}/incompletas`);
@@ -96,13 +77,34 @@ async function getIncompleteTasks() {
     throw error;
   }
 }
+async function getTasksInProgress() {
+  try {
+    const response = await Axios.get(`${API_BASE_URL}/enproceso`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener tareas en proceso:", error);
+    throw error;
+  }
+}
+async function getTasksByUser(userId) {
+  try {
+    const response = await Axios.get(`${API_BASE_URL}/usuario/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener tareas por usuario:", error);
+    throw error;
+  }
+}
+
+
+
 
 export {
   createTask,
   updateTask,
   deleteTask,
-  getAllTasks,
-  getTaskById,
   getCompletedTasks,
   getIncompleteTasks,
+  getTasksInProgress,
+  getTasksByUser,
 };

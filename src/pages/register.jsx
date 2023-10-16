@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Box,
   Heading,
@@ -9,40 +9,47 @@ import {
   Alert,
   AlertIcon,
   useColorMode,
-} from "@chakra-ui/react";
-import Axios from "axios";
-import { useNavigate } from "react-router-dom";
+} from '@chakra-ui/react';
+import Axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
-  const [error, setError] = useState(""); // Estado para manejar errores
+  const [error, setError] = useState('');
   const navigate = useNavigate();
-  const { colorMode } = useColorMode(); // Obtener el modo de color actual
+  const { colorMode } = useColorMode();
 
   const handleRegister = async () => {
-    try {
-      const response = await Axios.post(
-        "http://localhost:8080/user/create-user",
-        {
-          name,
-          email,
-          password,
-        }
+    // Validar la contraseña en el cliente
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      // La contraseña no cumple con los requisitos, muestra un mensaje de error al usuario
+      setError(
+        'La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial, y tener al menos 8 caracteres.'
       );
+      return;
+    }
+
+    try {
+      const response = await Axios.post('http://localhost:8080/user/create-user', {
+        name,
+        email,
+        password,
+      });
 
       if (response.status === 200) {
         setRegistrationSuccess(true);
       } else {
-        navigate("/home");
+        navigate('/home');
       }
     } catch (error) {
       console.error(error);
-      setError("Error: An unexpected error occurred.");
+      setError('Error: An unexpected error occurred.');
     }
-  };
+  }
 
   return (
     <Box
@@ -101,7 +108,7 @@ function Register() {
         >
           Register
         </Button>
-        {error && ( // Mostrar el error si está presente
+        {error && (
           <Alert status="error" mt={4}>
             <AlertIcon />
             {error}
