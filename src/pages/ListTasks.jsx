@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Task from "../components/Task/index";
-import {
-  createTask,
-  updateTask,
-  deleteTask,
-  getTasksByUser,
-} from "../api/axios.js";
+import  { createTask, updateTask, deleteTask, getTasksByUserId } from "../api/axios.js";
 import {
   Box,
   Button,
@@ -20,24 +15,26 @@ function ListTasks() {
   const [tasks, setTasks] = useState([]);
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDes, setTaskDes] = useState("");
-  const [userId, setUserId] = useState(localStorage.getItem("userId"));
+  const userId = localStorage.getItem("userId");
 
   useEffect(() => {
-    console.log("userId", userId);
-    loadTasksByUser();
-  }, [userId]);
- 
-
-  const loadTasksByUser = async () => {
+    loadTasksByUserId();
+  }, []);
+  
+  const loadTasksByUserId = async () => {
     try {
-      const tasksData = await getTasksByUser(userId);
-      setTasks(tasksData);
+      const tasksData = await getTasksByUserId(userId);
+      console.log("Tareas cargadas:", tasksData);
+      if (Array.isArray(tasksData)) {
+        setTasks(tasksData);
+      } else {
+        console.error("Las tareas recibidas no son un arreglo válido.");
+      }
     } catch (error) {
       console.error("Error al cargar tareas por usuario:", error);
     }
   }
-  console.log("tasks", tasks);
-
+  
   async function handleCreateTask() {
     try {
       if (taskTitle && taskDes) {
@@ -52,6 +49,7 @@ function ListTasks() {
       console.error("Error al crear la tarea:", error);
     }
   }
+  
 
   async function handleUpdateTask(taskId, newTitle, newDes, newState) {
     try {
@@ -83,27 +81,6 @@ function ListTasks() {
     }
   }
 
-  async function handleCompleteTask(taskId) {
-    try {
-      const updatedTask = await getTaskById(taskId);
-      if (updatedTask) {
-        const updatedTasks = tasks.map((task) => {
-          if (task._id === taskId) {
-            return updatedTask;
-          }
-          return task;
-        });
-        setTasks(updatedTasks);
-      }
-    } catch (error) {
-      console.error("Error al cambiar el estado de la tarea:", error);
-    }
-  }
-  
-  const pendingTasks = tasks.filter((task) => task.estado === "pendiente");
-  const inProgressTasks = tasks.filter((task) => task.estado === "en_proceso");
-  const completedTasks = tasks.filter((task) => task.estado === "completa");
-
   return (
     <VStack align="center" spacing={6}>
       <Box>
@@ -129,13 +106,13 @@ function ListTasks() {
         {tasks.map((task) => (
           <Task
             key={task._id}
+            userId={userId}
             task={task}
-            title={task.titulo}
+            titulo={task.titulo}
             estado={task.estado}
             descripcion={task.descripcion}
             onDelete={handleDeleteTask}
             onUpdate={handleUpdateTask}
-            onComplete={handleCompleteTask}
           />
         ))}
       </Box>

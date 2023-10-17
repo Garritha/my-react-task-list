@@ -13,7 +13,7 @@ import { EditIcon, DeleteIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
 const Task = ({
   task,
-  title,
+  titulo,
   descripcion,
   estado,
   onDelete,
@@ -28,7 +28,7 @@ const Task = ({
     completa: "green.400",
   };
   const [isEditing, setEditing] = useState(false);
-  const [newTitle, setNewTitle] = useState(title);
+  const [newTitle, setNewTitle] = useState(titulo);
   const [newDes, setNewDes] = useState(descripcion);
   const [newEst, setNewEst] = useState(estado);
 
@@ -45,7 +45,7 @@ const Task = ({
   };
 
   const handleCancelClick = () => {
-    setNewTitle(title);
+    setNewTitle(titulo);
     setNewDes(descripcion);
     setNewEst(estado);
     setEditing(false);

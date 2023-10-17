@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
   Box,
   Heading,
@@ -21,29 +22,21 @@ function Register() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { colorMode } = useColorMode();
+  
 
   const handleRegister = async () => {
-    // Validar la contraseña en el cliente
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordRegex.test(password)) {
-      // La contraseña no cumple con los requisitos, muestra un mensaje de error al usuario
-      setError(
-        'La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial, y tener al menos 8 caracteres.'
-      );
-      return;
-    }
-
     try {
-      const response = await Axios.post('http://localhost:8080/user/create-user', {
-        name,
+      const response = await Axios.post('http://localhost:8080/api/Usuario', {
+        nombre: name,
         email,
         password,
       });
 
       if (response.status === 200) {
         setRegistrationSuccess(true);
+        navigate('/');
       } else {
-        navigate('/home');
+        navigate('/');
       }
     } catch (error) {
       console.error(error);
@@ -58,16 +51,16 @@ function Register() {
       alignItems="center"
       justifyContent="center"
       height="100vh"
-      bg={colorMode === "dark" ? "black" : "white"} // Cambia el color de fondo según el modo
-      color={colorMode === "dark" ? "blue" : "blue.500"} // Cambia el color del texto según el modo
+      bg={colorMode === "dark" ? "black" : "white"}
+      color={colorMode === "dark" ? "blue" : "blue.500"}
     >
       <Box
         p={8}
         borderWidth={1}
         borderRadius={8}
         boxShadow="lg"
-        bg={colorMode === "dark" ? "black" : "white"} // Cambia el color de fondo según el modo
-        color={colorMode === "dark" ? "blue" : "blue.500"} // Cambia el color del texto según el modo
+        bg={colorMode === "dark" ? "black" : "white"}
+        color={colorMode === "dark" ? "blue" : "blue.500"}
       >
         <Heading as="h2" size="lg" textAlign="center" mb={4}>
           Register

@@ -1,23 +1,21 @@
-import Axios from "axios";
+import Axios from 'axios';
 
-const API_BASE_URL = "http://localhost:8080/task";
+const API_BASE_URL = "http://localhost:8080/api"; 
 
-async function createTask(title, description, token, userId) {
+  export async function createTask(title, description, token, userId) {
   try {
     const data = {
       titulo: title,
       descripcion: description,
-      token: token,
-      userId: userId, // Asegúrate de que "userId" se envía correctamente
     };
-      
+
     const headers = {
       Authorization: `Bearer ${token}`,
-      UserId: userId,
     };
+
     const response = await Axios.post(
-      `${API_BASE_URL}/crear`,
-      data, // Pasa los datos como un objeto
+      `${API_BASE_URL}/Tarea`, // Asegúrate de usar la ruta correcta para crear tareas
+      data,
       { headers }
     );
 
@@ -28,15 +26,12 @@ async function createTask(title, description, token, userId) {
   }
 }
 
-
-
-
-async function updateTask(taskId, title, description, state) {
+  export async function updateTask(taskId, title, description, state) {
   try {
-    const response = await Axios.put(`${API_BASE_URL}/actualizar/${taskId}`, {
+    const response = await Axios.put(`${API_BASE_URL}/Tarea/${taskId}`, {
       titulo: title,
       descripcion: description,
-      estado: state,
+      complete: state,
     });
     return response.data;
   } catch (error) {
@@ -44,23 +39,19 @@ async function updateTask(taskId, title, description, state) {
     throw error;
   }
 }
-
-async function deleteTask(taskId) {
+ 
+   export async function deleteTask(taskId) {
   try {
-    await Axios.delete(`${API_BASE_URL}/eliminar/${taskId}`);
-  } catch (error) {
+    await Axios.delete(`${API_BASE_URL}/Tarea/${taskId}`);
+  } catch (error) { 
     console.error("Error al eliminar la tarea:", error);
     throw error;
   }
 }
 
-
-
-
-
-async function getCompletedTasks() {
+  export async function getCompletedTasks(userId) {
   try {
-    const response = await Axios.get(`${API_BASE_URL}/completas`);
+    const response = await Axios.get(`${API_BASE_URL}/Tarea/usuario/${userId}`); // Asegúrate de usar la ruta correcta
     return response.data;
   } catch (error) {
     console.error("Error al obtener tareas completadas:", error);
@@ -68,43 +59,13 @@ async function getCompletedTasks() {
   }
 }
 
-async function getIncompleteTasks() {
-  try {
-    const response = await Axios.get(`${API_BASE_URL}/incompletas`);
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener tareas incompletas:", error);
-    throw error;
-  }
-}
-async function getTasksInProgress() {
-  try {
-    const response = await Axios.get(`${API_BASE_URL}/enproceso`);
-    return response.data;
-  } catch (error) {
-    console.error("Error al obtener tareas en proceso:", error);
-    throw error;
-  }
-}
-async function getTasksByUser(userId) {
-  try {
-    const response = await Axios.get(`${API_BASE_URL}/usuario/${userId}`);
-    return response.data;
+
+export  async function getTasksByUserId (userId) {
+  try{
+    const response = await Axios.get(`${API_BASE_URL}/Tarea/usuario/${userId}`); // Asegúrate de usar la ruta correcta
+        return response.data;
   } catch (error) {
     console.error("Error al obtener tareas por usuario:", error);
     throw error;
   }
 }
-
-
-
-
-export {
-  createTask,
-  updateTask,
-  deleteTask,
-  getCompletedTasks,
-  getIncompleteTasks,
-  getTasksInProgress,
-  getTasksByUser,
-};
