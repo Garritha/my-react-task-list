@@ -23,7 +23,7 @@
     "react-hook-form": "^7.44.3",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.16.0",
-    "sweetalert2": "^11.7.12"
+    "sweetalert2": "^11.7.32"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

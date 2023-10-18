@@ -6,6 +6,7 @@ import About from "../src/pages/About";
 import NotFound from "../src/pages/NotFound";
 import Menu from "../src/components/menu/Menu";
 import ListTasks from "../src/pages/ListTasks";
+import ProfilePage from "../src/pages/profile";
 import {
   ChakraProvider,
   Button,
@@ -40,8 +41,7 @@ function App() {
                 {colorMode === "dark" ? "Switch to Light" : "Switch to Dark"}
               </Button>
             </Box>
-            {isAuthenticated && <Menu />}{" "}
-            {/* Muestra el menú solo si isLoggedIn es true */}
+            {isAuthenticated && <Menu />} 
             <Box flex="1">
               <Routes>
                 <Route
@@ -59,6 +59,10 @@ function App() {
                   element={isAuthenticated ? <About /> : <Navigate to="/" />}
                 />
                 <Route
+                  path="/profile"
+                  element={isAuthenticated ? <ProfilePage /> : <Navigate to="/" />}
+                />
+                <Route
                   path="/tasks"
                   element={
                     isAuthenticated ? <ListTasks /> : <Navigate to="/" />
@@ -73,6 +77,7 @@ function App() {
     </ChakraProvider>
   );
 }
+
 
 
 export default App;

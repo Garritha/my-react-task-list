@@ -10,16 +10,9 @@ import {
   CardBody,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import Swal from "sweetalert2"; // Importa SweetAlert2
 
-const Task = ({
-  task,
-  titulo,
-  descripcion,
-  estado,
-  onDelete,
-  onUpdate,
-  onComplete,
-}) => {
+const Task = ({ task, titulo, descripcion, estado, onDelete, onUpdate }) => {
   const textColor = useColorModeValue("black", "#F2F2F2");
   const textDecorationColor = useColorModeValue("#1d39dd", "#1d39dd");
   const colors = {
@@ -30,32 +23,37 @@ const Task = ({
   const [isEditing, setEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(titulo);
   const [newDes, setNewDes] = useState(descripcion);
-  const [newEst, setNewEst] = useState(estado);
-
-  const backgroundColor = colors[newEst];
-  const textColorForState = newEst === "completa" ? "white" : "black";
+  const backgroundColor = colors[estado];
+  const textColorForState = estado === "completa" ? "white" : "black";
 
   const handleEditClick = () => {
     setEditing(true);
   };
 
   const handleSaveClick = () => {
-    onUpdate(task._id, newTitle, newDes, newEst);
+    onUpdate(task._id, newTitle, newDes, estado);
     setEditing(false);
   };
 
   const handleCancelClick = () => {
     setNewTitle(titulo);
     setNewDes(descripcion);
-    setNewEst(estado);
     setEditing(false);
   };
 
-  const handleCompleteClick = (newState) => {
-    if (newState === "en_progreso" || newState === "completa") {
-      setNewEst(newState);
-      onUpdate(task._id, newTitle, newDes, newState);
-    }
+  const handleDeleteClick = () => {
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción eliminará la tarea. ¿Deseas continuar?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        onDelete(task._id); // Llama a la función onDelete si el usuario confirma
+      }
+    });
   };
 
   return (
@@ -72,7 +70,7 @@ const Task = ({
             fontSize="lg"
             fontWeight="bold"
             color={textColorForState}
-            textDecoration={task.isCompleted ? textDecorationColor : "none"}
+            textDecoration={estado === "completa" ? textDecorationColor : "none"}
           >
             {newTitle}
           </Text>
@@ -81,7 +79,7 @@ const Task = ({
           value={newDes}
           onChange={(e) => setNewDes(e.target.value)}
           color={textColorForState}
-          textDecoration={task.isCompleted ? textDecorationColor : "none"}
+          textDecoration={estado === "completa" ? textDecorationColor : "none"}
         />
       </CardBody>
       <CardFooter justifyContent="space-between">
@@ -107,18 +105,13 @@ const Task = ({
             />
             <IconButton
               icon={<DeleteIcon />}
-              onClick={() => onDelete(task._id)}
+              onClick={handleDeleteClick} // Usa la función de confirmación al eliminar
               color={useColorModeValue("red.400", "red.500")}
             />
             <IconButton
               icon={<CheckIcon />}
-              onClick={() => handleCompleteClick("en_progreso")} // Cambiar el estado a "En Progreso"
-              color={useColorModeValue("blue.400", "yellow.400")} // Cambiar el color
-            />
-            <IconButton
-              icon={<CheckIcon />}
-              onClick={() => handleCompleteClick("completa")} // Cambiar el estado a "Completado"
-              color={useColorModeValue("blue.400", "green.400")} // Cambiar el color
+              onClick={() => onUpdate(task._id, newTitle, newDes, "completa")}
+              color={useColorModeValue("blue.400", "green.400")}
             />
           </>
         )}

@@ -22,7 +22,7 @@ function Login({ setIsAuthenticated, setUserId }) {
 
   const handleLogin = async () => {
     try {
-      const response = await Axios.post('http://localhost:8080/api/usuario/login', { email, password });
+      const response = await Axios.post('http://localhost:8080/v1/user/login', { email, password });
       const { data } = response;
 
       if (data.token && data.id) {

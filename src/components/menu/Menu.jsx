@@ -57,6 +57,17 @@ function Menu() {
           </Link>
           <Link
             as={RouterLink}
+            to="/profile"
+            color={textColor}
+            textDecoration="none"
+            padding="5px 10px"
+            borderRadius="5px"
+            _hover={{ backgroundColor: "gray.400", color: "white" }}
+          >
+            Profile
+          </Link>
+          <Link
+            as={RouterLink}
             to="/"
             onClick={handleLogout}
             color={textColor}

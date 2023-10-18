@@ -26,7 +26,7 @@ function Register() {
 
   const handleRegister = async () => {
     try {
-      const response = await Axios.post('http://localhost:8080/api/Usuario', {
+      const response = await Axios.post('http://localhost:8080/v1/User/crear-user', {
         nombre: name,
         email,
         password,

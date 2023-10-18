@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Task from "../components/Task/index";
-import  { createTask, updateTask, deleteTask, getTasksByUserId } from "../api/axios.js";
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  Text,
-  Textarea,
-  VStack,
-} from "@chakra-ui/react";
+import { createTask, updateTask, deleteTask, getTaskById, getTaskByUserId,changeTaskStatus } from "../api/axios.js";
+import { Box, Button, Flex, Input, Text, Textarea, VStack } from "@chakra-ui/react";
 
 function ListTasks() {
   const [tasks, setTasks] = useState([]);
@@ -20,10 +12,10 @@ function ListTasks() {
   useEffect(() => {
     loadTasksByUserId();
   }, []);
-  
+
   const loadTasksByUserId = async () => {
     try {
-      const tasksData = await getTasksByUserId(userId);
+      const tasksData = await getTaskByUserId(userId);
       console.log("Tareas cargadas:", tasksData);
       if (Array.isArray(tasksData)) {
         setTasks(tasksData);
@@ -34,7 +26,7 @@ function ListTasks() {
       console.error("Error al cargar tareas por usuario:", error);
     }
   }
-  
+
   async function handleCreateTask() {
     try {
       if (taskTitle && taskDes) {
@@ -49,7 +41,6 @@ function ListTasks() {
       console.error("Error al crear la tarea:", error);
     }
   }
-  
 
   async function handleUpdateTask(taskId, newTitle, newDes, newState) {
     try {
@@ -58,8 +49,8 @@ function ListTasks() {
         if (task._id === taskId) {
           return {
             ...task,
-            titulo: newTitle,
-            descripcion: newDes,
+            titulo: newTitle, // Cambia a "titulo"
+            descripcion: newDes, // Cambia a "descripcion"
             estado: newState,
           };
         }
@@ -81,6 +72,28 @@ function ListTasks() {
     }
   }
 
+  async function handleCompleteTask(taskId, newState, estado) {
+    try {
+      if (estado === "pendiente" && newState !== "completa" && newState !== "en_progreso") {
+        throw new Error("El estado de la tarea debe ser 'completa' o 'en_progreso'");
+      }
+  
+      await changeTaskStatus(taskId, newState);
+      const updatedTasks = tasks.map((task) => {
+        if (task._id === taskId) {
+          return {
+            ...task,
+            estado: newState,
+          };
+        }
+        return task;
+      });
+      setTasks(updatedTasks);
+    } catch (error) {
+      console.error("Error al actualizar el estado de la tarea:", error);
+    }
+  }
+  
   return (
     <VStack align="center" spacing={6}>
       <Box>
@@ -102,20 +115,21 @@ function ListTasks() {
           <Button onClick={handleCreateTask}>Crear Tarea</Button>
         </Flex>
       </Box>
-      <Box>
+      <Flex wrap="wrap" justifyContent="center">
         {tasks.map((task) => (
           <Task
             key={task._id}
             userId={userId}
             task={task}
-            titulo={task.titulo}
-            estado={task.estado}
-            descripcion={task.descripcion}
+            titulo={task.titulo} 
+            estado={task.estado} 
+            descripcion={task.descripcion} 
             onDelete={handleDeleteTask}
             onUpdate={handleUpdateTask}
+            onComplete={handleCompleteTask}
           />
         ))}
-      </Box>
+      </Flex>
     </VStack>
   );
 }

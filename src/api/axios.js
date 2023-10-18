@@ -1,71 +1,97 @@
-import Axios from 'axios';
+import axios from 'axios';
 
-const API_BASE_URL = "http://localhost:8080/api"; 
+const API_BASE_URL = 'http://localhost:8080/v1/Tarea';
 
-  export async function createTask(title, description, token, userId) {
+// Crear una nueva tarea
+async function createTask(title, description, userId) {
   try {
-    const data = {
+    const response = await axios.post(`${API_BASE_URL}/crear`, {
       titulo: title,
       descripcion: description,
-    };
-
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
-    const response = await Axios.post(
-      `${API_BASE_URL}/Tarea`, // Asegúrate de usar la ruta correcta para crear tareas
-      data,
-      { headers }
-    );
-
-    return response.data;
+      usuario: userId,
+    });
+    return response.data.Tarea; // Devuelve la tarea creada
   } catch (error) {
     console.error('Error al crear la tarea:', error);
     throw error;
   }
 }
 
-  export async function updateTask(taskId, title, description, state) {
+// Actualizar una tarea
+async function updateTask(taskId, newTitle, newDescription, newState) {
   try {
-    const response = await Axios.put(`${API_BASE_URL}/Tarea/${taskId}`, {
-      titulo: title,
-      descripcion: description,
-      complete: state,
+    const response = await axios.put(`${API_BASE_URL}/${taskId}`, {
+      titulo: newTitle,
+      descripcion: newDescription,
+      estado: newState,
     });
-    return response.data;
+    return response.data.Tarea; // Devuelve la tarea actualizada
   } catch (error) {
-    console.error("Error al actualizar la tarea:", error);
+    console.error('Error al actualizar la tarea:', error);
     throw error;
   }
 }
- 
-   export async function deleteTask(taskId) {
+
+// Eliminar una tarea
+async function deleteTask(taskId) {
   try {
-    await Axios.delete(`${API_BASE_URL}/Tarea/${taskId}`);
-  } catch (error) { 
-    console.error("Error al eliminar la tarea:", error);
+    const response = await axios.delete(`${API_BASE_URL}/${taskId}`);
+    return response.data.msg; // Devuelve un mensaje de confirmación
+  } catch (error) {
+    console.error('Error al eliminar la tarea:', error);
     throw error;
   }
 }
 
-  export async function getCompletedTasks(userId) {
+// Obtener todas las tareas
+async function getTasks() {
   try {
-    const response = await Axios.get(`${API_BASE_URL}/Tarea/usuario/${userId}`); // Asegúrate de usar la ruta correcta
-    return response.data;
+    const response = await axios.get(API_BASE_URL);
+    return response.data; // Devuelve un array de tareas
   } catch (error) {
-    console.error("Error al obtener tareas completadas:", error);
+    console.error('Error al obtener las tareas:', error);
     throw error;
   }
 }
 
-
-export  async function getTasksByUserId (userId) {
-  try{
-    const response = await Axios.get(`${API_BASE_URL}/Tarea/usuario/${userId}`); // Asegúrate de usar la ruta correcta
-        return response.data;
+// Obtener una tarea por ID
+async function getTaskById(taskId) {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/${taskId}`);
+    return response.data.Tarea; // Devuelve la tarea encontrada
   } catch (error) {
-    console.error("Error al obtener tareas por usuario:", error);
+    console.error('Error al obtener la tarea por ID:', error);
     throw error;
   }
 }
+
+// Cambiar el estado de una tarea
+async function changeTaskStatus(taskId) {
+  try {
+    const response = await axios.patch(`${API_BASE_URL}/${taskId}`);
+    return response.data.Tarea; // Devuelve la tarea actualizada
+  } catch (error) {
+    console.error('Error al cambiar el estado de la tarea:', error);
+    throw error;
+  }
+}
+
+async function getTaskByUserId(userId) {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/${userId}/tareas`);
+    return response.data; // Devuelve un array de tareas
+  } catch (error) { return error;}
+}
+
+async function updateUser (userId, userName, userEmail, userPassword) {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/${userId}`, {
+      nombre: userName,
+      correo: userEmail,
+      contrasena: userPassword,
+    });
+    return response.data.Usuario; // Devuelve el usuario actualizado
+  } catch (error) { return error;}
+}
+
+export { createTask, updateTask, deleteTask, getTasks, getTaskById, changeTaskStatus, getTaskByUserId, updateUser };
