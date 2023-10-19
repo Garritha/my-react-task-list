@@ -10,9 +10,9 @@ import {
   CardBody,
 } from "@chakra-ui/react";
 import { EditIcon, DeleteIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons";
-import Swal from "sweetalert2"; // Importa SweetAlert2
+import Swal from "sweetalert2";
 
-const Task = ({ task, titulo, descripcion, estado, onDelete, onUpdate }) => {
+const Task = ({ task, titulo, descripcion, estado, onDelete, onMoveToDeletedTasks, onUpdate }) => {
   const textColor = useColorModeValue("black", "#F2F2F2");
   const textDecorationColor = useColorModeValue("#1d39dd", "#1d39dd");
   const colors = {
@@ -41,17 +41,19 @@ const Task = ({ task, titulo, descripcion, estado, onDelete, onUpdate }) => {
     setEditing(false);
   };
 
-  const handleDeleteClick = () => {
+
+
+  const handleMoveToDeletedClick = () => {
     Swal.fire({
-      title: "¿Estás seguro?",
-      text: "Esta acción eliminará la tarea. ¿Deseas continuar?",
+      title: "¿Mover a Tareas Eliminadas?",
+      text: "Esta acción moverá la tarea a la colección de tareas eliminadas. ¿Deseas continuar?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Sí, eliminar",
+      confirmButtonText: "Sí, mover a eliminadas",
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        onDelete(task._id); // Llama a la función onDelete si el usuario confirma
+        onMoveToDeletedTasks(task._id);
       }
     });
   };
@@ -103,14 +105,17 @@ const Task = ({ task, titulo, descripcion, estado, onDelete, onUpdate }) => {
               onClick={handleEditClick}
               color={useColorModeValue("blue.400", "blue.500")}
             />
+           
+            {estado !== "completa" && (
+              <IconButton
+                icon={<CheckIcon />}
+                onClick={() => onUpdate(task._id, newTitle, newDes, "completa")}
+                color={useColorModeValue("blue.400", "green.400")}
+              />
+            )}
             <IconButton
               icon={<DeleteIcon />}
-              onClick={handleDeleteClick} // Usa la función de confirmación al eliminar
-              color={useColorModeValue("red.400", "red.500")}
-            />
-            <IconButton
-              icon={<CheckIcon />}
-              onClick={() => onUpdate(task._id, newTitle, newDes, "completa")}
+              onClick={handleMoveToDeletedClick}
               color={useColorModeValue("blue.400", "green.400")}
             />
           </>

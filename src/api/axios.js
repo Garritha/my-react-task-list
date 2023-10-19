@@ -83,15 +83,17 @@ async function getTaskByUserId(userId) {
   } catch (error) { return error;}
 }
 
-async function updateUser (userId, userName, userEmail, userPassword) {
+
+async function moveToDeletedTasks(taskId) {
   try {
-    const response = await axios.put(`${API_BASE_URL}/${userId}`, {
-      nombre: userName,
-      correo: userEmail,
-      contrasena: userPassword,
-    });
-    return response.data.Usuario; // Devuelve el usuario actualizado
-  } catch (error) { return error;}
+    const response = await axios.post(`${API_BASE_URL}/eliminar/${taskId}`);
+    return response.data.msg; // Devuelve la tarea actualizada
+  } catch (error) {
+    console.error('Error al cambiar el estado de la tarea:', error);
+    throw error;
+  }
 }
 
-export { createTask, updateTask, deleteTask, getTasks, getTaskById, changeTaskStatus, getTaskByUserId, updateUser };
+
+
+export { createTask, updateTask, deleteTask, getTasks, getTaskById, changeTaskStatus, getTaskByUserId, moveToDeletedTasks,};

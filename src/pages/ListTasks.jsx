@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Task from "../components/Task/index";
-import { createTask, updateTask, deleteTask, getTaskById, getTaskByUserId,changeTaskStatus } from "../api/axios.js";
+import { createTask, updateTask, deleteTask, getTaskById, getTaskByUserId, changeTaskStatus, moveToDeletedTasks } from "../api/axios.js";
 import { Box, Button, Flex, Input, Text, Textarea, VStack } from "@chakra-ui/react";
 
 function ListTasks() {
@@ -49,8 +49,8 @@ function ListTasks() {
         if (task._id === taskId) {
           return {
             ...task,
-            titulo: newTitle, // Cambia a "titulo"
-            descripcion: newDes, // Cambia a "descripcion"
+            titulo: newTitle,
+            descripcion: newDes,
             estado: newState,
           };
         }
@@ -72,12 +72,22 @@ function ListTasks() {
     }
   }
 
+  async function handleMoveToDeletedTasks(taskId, userId) {
+    try {
+      await moveToDeletedTasks(taskId);
+      const remainingTasks = tasks.filter((task) => task._id !== taskId);
+      setTasks(remainingTasks);
+    } catch (error) {
+      console.error("Error al mover la tarea a eliminadas:", error);
+    }
+  }
+
   async function handleCompleteTask(taskId, newState, estado) {
     try {
       if (estado === "pendiente" && newState !== "completa" && newState !== "en_progreso") {
         throw new Error("El estado de la tarea debe ser 'completa' o 'en_progreso'");
       }
-  
+
       await changeTaskStatus(taskId, newState);
       const updatedTasks = tasks.map((task) => {
         if (task._id === taskId) {
@@ -93,7 +103,7 @@ function ListTasks() {
       console.error("Error al actualizar el estado de la tarea:", error);
     }
   }
-  
+
   return (
     <VStack align="center" spacing={6}>
       <Box>
@@ -118,13 +128,14 @@ function ListTasks() {
       <Flex wrap="wrap" justifyContent="center">
         {tasks.map((task) => (
           <Task
-            key={task._id}
+            key={task.id}
             userId={userId}
             task={task}
-            titulo={task.titulo} 
-            estado={task.estado} 
-            descripcion={task.descripcion} 
+            titulo={task.titulo}
+            estado={task.estado}
+            descripcion={task.descripcion}
             onDelete={handleDeleteTask}
+            onMoveToDeletedTasks={handleMoveToDeletedTasks}
             onUpdate={handleUpdateTask}
             onComplete={handleCompleteTask}
           />

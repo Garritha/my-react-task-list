@@ -28,6 +28,8 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const { colorMode, toggleColorMode } = useColorMode();
   const [userId, setUserId] = useState(null);
+
+  
   return (
     <ChakraProvider theme={colorMode === "dark" ? darkTheme : lightTheme}>
       <ColorModeProvider value={colorMode}>
@@ -38,7 +40,7 @@ function App() {
                 onClick={toggleColorMode}
                 leftIcon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
               >
-                {colorMode === "dark" ? "Switch to Light" : "Switch to Dark"}
+                {colorMode === "dark" ? "" : ""}
               </Button>
             </Box>
             {isAuthenticated && <Menu />} 

@@ -15,6 +15,15 @@ function Menu() {
     navigate("/");
   };
 
+  const getUserFromLocalStorage = () => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      return JSON.parse(userData);
+    }
+    return null;
+  };
+
+  const user = getUserFromLocalStorage();
   const bgColor = useColorModeValue("white", "gray.700");
   const textColor = useColorModeValue("#1E6F9F", "white");
 
@@ -78,6 +87,15 @@ function Menu() {
           >
             Log Out
           </Link>
+          {user && (
+            <Box
+              padding="5px 10px"
+              borderRadius="5px"
+              _hover={{ backgroundColor: "gray.400", color: "white" }}
+            >
+              Hello, {user.nombre}
+            </Box>
+          )}
         </Stack>
       </Flex>
     </Box>

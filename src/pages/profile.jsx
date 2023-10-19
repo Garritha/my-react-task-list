@@ -23,23 +23,17 @@ function Profile() {
 
   useEffect(() => {
     // Cuando se carga la página de perfil, obtén la información del usuario desde localStorage.
-    const userId = localStorage.getItem("userId");
-    const userData = localStorage.getItem("user");
+    
+    const userData = localStorage.getItem("user") ;
+    console.log("user:", userData);
 
-    if (userId && userData) {
+    if (userData) {
       const user = JSON.parse(userData);
       setName(user.nombre);
-      setEmail(user.correo);
+      setEmail(user.email);
     }
   }, []);
 
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -68,7 +62,7 @@ function Profile() {
   const handleUpdateProfile = async () => {
     try {
       const response = await updateUser(name, email, password, newPassword);
-      console.log("Perfil actualizado:", response);
+      console.log("Perfil actualizado:");
       // Aquí puedes realizar acciones adicionales, como mostrar un mensaje de éxito.
     } catch (error) {
       console.error("Error al actualizar el perfil:", error);
@@ -85,11 +79,17 @@ function Profile() {
       </Text>
       <FormControl id="name" isRequired mb={4}>
         <FormLabel>Nombre:</FormLabel>
-        <Input type="text" value={name} onChange={handleNameChange} placeholder="nombre" />
+        <Input type="text" value={name}
+        
+         placeholder="nombre"
+          disabled={true}/>
       </FormControl>
       <FormControl id="email" isRequired mb={4}>
         <FormLabel>Correo:</FormLabel>
-        <Input type="email" value={email} onChange={handleEmailChange}  placeholder="correo"/>
+        <Input type="email" value={email} 
+        
+        placeholder="correo"
+         disabled={true}/>
       </FormControl>
       <FormControl id="password" isRequired mb={4}>
         <FormLabel>Contraseña actual:</FormLabel>

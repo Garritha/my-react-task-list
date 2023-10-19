@@ -51,16 +51,14 @@ function Register() {
       alignItems="center"
       justifyContent="center"
       height="100vh"
-      bg={colorMode === "dark" ? "black" : "white"}
-      color={colorMode === "dark" ? "blue" : "blue.500"}
+     
     >
       <Box
         p={8}
         borderWidth={1}
         borderRadius={8}
         boxShadow="lg"
-        bg={colorMode === "dark" ? "black" : "white"}
-        color={colorMode === "dark" ? "blue" : "blue.500"}
+       
       >
         <Heading as="h2" size="lg" textAlign="center" mb={4}>
           Register
