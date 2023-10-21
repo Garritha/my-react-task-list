@@ -25,10 +25,8 @@ const Home = () => {
           textAlign="center"
           p={6}
           maxW="400px"
-          borderWidth="1px"
-          borderRadius="lg"
-          boxShadow="lg"
-          bg={bgColor}
+         
+          
           color={textColor}
         >
           <Heading fontSize="32px" mb="4">

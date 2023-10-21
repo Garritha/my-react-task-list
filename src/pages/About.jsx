@@ -17,8 +17,7 @@ const About = () => {
         maxW="75%"
         textAlign="center"
         paddingY="20px"
-        bg={useColorModeValue("white", "gray.800")}
-        boxShadow="lg"
+        
         color={useColorModeValue("#1E6F9F", "white")}
       >
         <Heading fontSize="24px" marginBottom="16px" color={headingColor}>

@@ -9,10 +9,10 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import axios from "axios"; // Asegúrate de importar Axios
+import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
-const API_BASE_URL = "http://localhost:8080/v1/User"; // URL de la API
+const API_BASE_URL = "http://localhost:8080/v1/User";
 
 function Profile() {
   const [name, setName] = useState("");
@@ -22,10 +22,7 @@ function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Cuando se carga la página de perfil, obtén la información del usuario desde localStorage.
-    
-    const userData = localStorage.getItem("user") ;
-    console.log("user:", userData);
+    const userData = localStorage.getItem("user");
 
     if (userData) {
       const user = JSON.parse(userData);
@@ -33,7 +30,6 @@ function Profile() {
       setEmail(user.email);
     }
   }, []);
-
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -44,7 +40,7 @@ function Profile() {
   };
 
   const updateUser = async (userName, userEmail, userPassword, userNewPassword) => {
-    const userId = localStorage.getItem("userId"); // Obtén el ID del usuario desde localStorage
+    const userId = localStorage.getItem("userId");
     try {
       const response = await axios.put(`${API_BASE_URL}/${userId}`, {
         nombre: userName,
@@ -53,7 +49,7 @@ function Profile() {
         nuevaContrasena: userNewPassword,
       });
       navigate('/home');
-      return response.data.Usuario; // Devuelve el usuario actualizado
+      return response.data.Usuario;
     } catch (error) {
       throw error;
     }
@@ -63,40 +59,43 @@ function Profile() {
     try {
       const response = await updateUser(name, email, password, newPassword);
       console.log("Perfil actualizado:");
-      // Aquí puedes realizar acciones adicionales, como mostrar un mensaje de éxito.
     } catch (error) {
       console.error("Error al actualizar el perfil:", error);
-      // Aquí puedes mostrar un mensaje de error.
     }
   };
 
   const bgColor = useColorModeValue("gray.100", "gray.700");
+  const textColor = useColorModeValue("#1E6F9F", "white");
 
   return (
-    <Box p={4} bg={bgColor}>
-      <Text fontSize="2xl" mb={4}>
+    <Box p={4}>
+      <Text fontSize="2xl" mb={4} color={textColor}>
         Perfil de Usuario
       </Text>
       <FormControl id="name" isRequired mb={4}>
-        <FormLabel>Nombre:</FormLabel>
-        <Input type="text" value={name}
-        
-         placeholder="nombre"
-          disabled={true}/>
+        <FormLabel color={textColor}>Nombre:</FormLabel>
+        <Input
+          type="text"
+          value={name}
+          placeholder="nombre"
+          disabled={true}
+        />
       </FormControl>
       <FormControl id="email" isRequired mb={4}>
-        <FormLabel>Correo:</FormLabel>
-        <Input type="email" value={email} 
-        
-        placeholder="correo"
-         disabled={true}/>
+        <FormLabel color={textColor}>Correo:</FormLabel>
+        <Input
+          type="email"
+          value={email}
+          placeholder="correo"
+          disabled={true}
+        />
       </FormControl>
       <FormControl id="password" isRequired mb={4}>
-        <FormLabel>Contraseña actual:</FormLabel>
-        <Input type="password" value={password} onChange={handlePasswordChange} />
+        <FormLabel color={textColor}>Contraseña actual:</FormLabel>
+        <Input type="password" value={password} onChange={handlePasswordChange} color={textColor} />
       </FormControl>
       <FormControl id="newPassword" mb={4}>
-        <FormLabel>Nueva Contraseña:</FormLabel>
+        <FormLabel color={textColor}>Nueva Contraseña:</FormLabel>
         <Input
           type="password"
           value={newPassword}

@@ -12,7 +12,7 @@ import {
   useColorMode,
 } from '@chakra-ui/react';
 import Axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';  // Importa Link desde react-router-dom
 
 function Register() {
   const [name, setName] = useState('');
@@ -22,7 +22,6 @@ function Register() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { colorMode } = useColorMode();
-  
 
   const handleRegister = async () => {
     try {
@@ -51,14 +50,12 @@ function Register() {
       alignItems="center"
       justifyContent="center"
       height="100vh"
-     
     >
       <Box
         p={8}
         borderWidth={1}
         borderRadius={8}
         boxShadow="lg"
-       
       >
         <Heading as="h2" size="lg" textAlign="center" mb={4}>
           Register
@@ -111,6 +108,11 @@ function Register() {
             User created successfully.
           </Alert>
         )}
+        <Link to="/">  {/* Agrega el botón "Login" que redirige a la página de inicio de sesión */}
+          <Button mt={4} colorScheme="teal" variant="solid" width="full">
+            Login
+          </Button>
+        </Link>
       </Box>
     </Box>
   );

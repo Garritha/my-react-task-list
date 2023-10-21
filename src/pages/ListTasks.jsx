@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Task from "../components/Task/index";
-import { createTask, updateTask, deleteTask, getTaskById, getTaskByUserId, changeTaskStatus, moveToDeletedTasks } from "../api/axios.js";
-import { Box, Button, Flex, Input, Text, Textarea, VStack } from "@chakra-ui/react";
+import { createTask, updateTask, deleteTask,  getTaskByUserId, changeTaskStatus, moveToDeletedTasks } from "../api/axios.js";
+import { Box, Button, Flex, Input, Text, Textarea, VStack, useColorModeValue } from "@chakra-ui/react";
 
 function ListTasks() {
   const [tasks, setTasks] = useState([]);
@@ -103,11 +103,16 @@ function ListTasks() {
       console.error("Error al actualizar el estado de la tarea:", error);
     }
   }
-
+  const textColor = useColorModeValue("#1E6F9F", "white");
   return (
-    <VStack align="center" spacing={6}>
-      <Box>
-        <Text fontSize="24px" fontWeight="bold" color="gray.500" align="center">
+    <VStack align="center" spacing={6} width="100%">
+      <Box width="100%">
+        <Text
+          fontSize="24px"
+          fontWeight="bold"
+          color={textColor}
+          textAlign="center"
+        >
           List Task
         </Text>
         <Input
@@ -122,7 +127,16 @@ function ListTasks() {
           onChange={(e) => setTaskDes(e.target.value)}
         />
         <Flex justify="center">
-          <Button onClick={handleCreateTask}>Crear Tarea</Button>
+          <Button
+            onClick={handleCreateTask}
+            bg="transparent" // Fondo transparente
+            _hover={{
+              background: "none", // Cambia el fondo en hover a transparente
+              color: "blue.500", // Cambia el color del texto en hover
+            }}
+          >
+            Crear Tarea
+          </Button>
         </Flex>
       </Box>
       <Flex wrap="wrap" justifyContent="center">

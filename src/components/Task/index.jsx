@@ -23,8 +23,7 @@ const Task = ({ task, titulo, descripcion, estado, onDelete, onMoveToDeletedTask
   const [isEditing, setEditing] = useState(false);
   const [newTitle, setNewTitle] = useState(titulo);
   const [newDes, setNewDes] = useState(descripcion);
-  const backgroundColor = colors[estado];
-  const textColorForState = estado === "completa" ? "white" : "black";
+  const backgroundColor = estado === "completa" ? colors["completa"] : "transparent"; // Condición para el fondo
 
   const handleEditClick = () => {
     setEditing(true);
@@ -40,8 +39,6 @@ const Task = ({ task, titulo, descripcion, estado, onDelete, onMoveToDeletedTask
     setNewDes(descripcion);
     setEditing(false);
   };
-
-
 
   const handleMoveToDeletedClick = () => {
     Swal.fire({
@@ -59,7 +56,7 @@ const Task = ({ task, titulo, descripcion, estado, onDelete, onMoveToDeletedTask
   };
 
   return (
-    <Card marginBottom={4} backgroundColor={backgroundColor}>
+    <Card marginBottom={4} backgroundColor={backgroundColor} boxShadow="none"> {/* Fondo condicional */}
       <CardBody>
         {isEditing ? (
           <Textarea
@@ -71,7 +68,7 @@ const Task = ({ task, titulo, descripcion, estado, onDelete, onMoveToDeletedTask
           <Text
             fontSize="lg"
             fontWeight="bold"
-            color={textColorForState}
+            color={estado === "completa" ? "white" : textColor}
             textDecoration={estado === "completa" ? textDecorationColor : "none"}
           >
             {newTitle}
@@ -80,7 +77,7 @@ const Task = ({ task, titulo, descripcion, estado, onDelete, onMoveToDeletedTask
         <Textarea
           value={newDes}
           onChange={(e) => setNewDes(e.target.value)}
-          color={textColorForState}
+          color={estado === "completa" ? "white" : textColor}
           textDecoration={estado === "completa" ? textDecorationColor : "none"}
         />
       </CardBody>
@@ -110,13 +107,13 @@ const Task = ({ task, titulo, descripcion, estado, onDelete, onMoveToDeletedTask
               <IconButton
                 icon={<CheckIcon />}
                 onClick={() => onUpdate(task._id, newTitle, newDes, "completa")}
-                color={useColorModeValue("blue.400", "green.400")}
+                color={useColorModeValue("blue.400", "blue.600")}
               />
             )}
             <IconButton
               icon={<DeleteIcon />}
               onClick={handleMoveToDeletedClick}
-              color={useColorModeValue("blue.400", "green.400")}
+              color={useColorModeValue("red", "red")}
             />
           </>
         )}
